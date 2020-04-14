@@ -1,7 +1,5 @@
 import java.io.*;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
 
 public class Sorter2 {
     public static void main(String[] args) throws FileNotFoundException,IOException{
@@ -17,6 +15,7 @@ public class Sorter2 {
             //System.out.println(numbrid_tähtedena[rea_number]);
         }
         inputFile.close();
+        System.out.println("Time for reading to array: " + (System.currentTimeMillis() - startTime)+" *ms");
 
         Arrays.sort(numbrid_tähtedena, (chars1, chars2) -> {
             for(int i=0;i<7;i++){

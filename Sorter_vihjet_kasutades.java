@@ -6,26 +6,24 @@ public class Sorter_vihjet_kasutades {
     public static void main(String[] args) throws IOException{
         long startTime = System.currentTimeMillis();
         BitSet existing_numbers = new BitSet(10000000);
-
         DataInputStream din = new DataInputStream(new BufferedInputStream(new FileInputStream(args[0])));
         while (true) {
             try {
                 long myMagic8Bytes = din.readLong();
-
-                ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-                buffer.putLong(myMagic8Bytes);
-                existing_numbers.set(myParseInt(buffer.array()));// This is I can convert this long (8x8 bits) => number
-
-                /*byte[] b = new byte[] {
-                        (byte) myMagic8Bytes,
-                        (byte) (myMagic8Bytes >> 8),
-                        (byte) (myMagic8Bytes >> 16),
-                        (byte) (myMagic8Bytes >> 24),
-                        (byte) (myMagic8Bytes >> 32),
-                        (byte) (myMagic8Bytes >> 40),
-                        (byte) (myMagic8Bytes >> 48),
-                        (byte) (myMagic8Bytes >> 56)};
-                existing_numbers.set(myParseInt(b));*/
+                long m=0;
+                /*long new_line=((myMagic8Bytes >> 8*8) & 0xFF);
+                long bit_0=((myMagic8Bytes >> 7*8) & 0xFF) - '0';
+                long bit_1=((myMagic8Bytes >> 6*8) & 0xFF) - '0';
+                long bit_2=((myMagic8Bytes >> 5*8) & 0xFF) - '0';
+                long bit_3=((myMagic8Bytes >> 4*8) & 0xFF) - '0';
+                long bit_4=((myMagic8Bytes >> 3*8) & 0xFF) - '0';
+                long bit_5=((myMagic8Bytes >> 2*8) & 0xFF) - '0';
+                long bit_6=((myMagic8Bytes >> 1*8) & 0xFF) - '0';*/
+                for (int i=7;i>0;){
+                    m*=10;
+                    m+=((myMagic8Bytes>>i--*8)&0xFF-'0');
+                }
+                existing_numbers.set((int)m);
             } catch (EOFException ignore) {
                 // cool hack, avoiding end detection :)
                 din.close();
@@ -47,50 +45,12 @@ public class Sorter_vihjet_kasutades {
             nullid=nullid.substring(0, nullid.length() - 1);
             for (int i=rea_number;i<rea_number*10;i++) {
                 if (existing_numbers.get(i)) {
-                    outFile.println(nullid+i);//writes array into file with zeropadding on left side.
+                    outFile.println(nullid+i);
                 }
             }
-            //System.out.println(rea_number+";"+rea_number*10+" ; "+nullid);
             rea_number*=10;
         }
         outFile.close();
         System.out.println("Time for running: "+(System.currentTimeMillis()-startTime)+"*ms");
-    }
-    static int myParseInt(byte[] b){
-        int number=0;
-        int kordaja=1000000;
-        for(int i=0;i<7;i++){
-            switch ((char)b[i]){
-                case '1':
-                    number+=kordaja;
-                    break;
-                case '2':
-                    number+=2*kordaja;
-                    break;
-                case '3':
-                    number+=3*kordaja;
-                    break;
-                case '4':
-                    number+=4*kordaja;
-                    break;
-                case '5':
-                    number+=5*kordaja;
-                    break;
-                case '6':
-                    number+=6*kordaja;
-                    break;
-                case '7':
-                    number+=7*kordaja;
-                    break;
-                case '8':
-                    number+=8*kordaja;
-                    break;
-                case '9':
-                    number+=9*kordaja;
-                    break;
-            }
-            kordaja/=10;
-        }
-        return number;
     }
 }

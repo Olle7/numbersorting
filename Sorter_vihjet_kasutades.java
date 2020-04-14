@@ -10,9 +10,22 @@ public class Sorter_vihjet_kasutades {
         DataInputStream din = new DataInputStream(new BufferedInputStream(new FileInputStream(args[0])));
         while (true) {
             try {
+                long myMagic8Bytes = din.readLong();
+
                 ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-                buffer.putLong(din.readLong());
+                buffer.putLong(myMagic8Bytes);
                 existing_numbers.set(myParseInt(buffer.array()));// This is I can convert this long (8x8 bits) => number
+
+                /*byte[] b = new byte[] {
+                        (byte) myMagic8Bytes,
+                        (byte) (myMagic8Bytes >> 8),
+                        (byte) (myMagic8Bytes >> 16),
+                        (byte) (myMagic8Bytes >> 24),
+                        (byte) (myMagic8Bytes >> 32),
+                        (byte) (myMagic8Bytes >> 40),
+                        (byte) (myMagic8Bytes >> 48),
+                        (byte) (myMagic8Bytes >> 56)};
+                existing_numbers.set(myParseInt(b));*/
             } catch (EOFException ignore) {
                 // cool hack, avoiding end detection :)
                 din.close();

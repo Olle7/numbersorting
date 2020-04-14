@@ -1,26 +1,43 @@
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.File;
 import java.io.PrintWriter;
 import java.util.BitSet;
-import java.util.Scanner;
 
 public class Sorter4 {
     public static void main(String[] args) throws IOException{
         long startTime = System.currentTimeMillis();
+
         BitSet bitSet = new BitSet(10000000);//9000000//26
         FileInputStream inputFile = new FileInputStream(args[0]);
         final int ridu=9000000;
-        byte[] rida=new byte[7];
-        for (int rea_number=0;rea_number<ridu;rea_number++){
-            inputFile.read(rida);
-            inputFile.skip(1);
-            int number=myParseInt(rida);
-            bitSet.flip(number);
-            //System.out.println(numbrid_tähtedena[rea_number]);
+
+        int ridu_buhvris=5000;
+        //50:1742*ms
+        //100:1634*ms
+        //130:1558*ms
+        //140:1547*ms
+        //150:1604*ms
+        //160:1619*ms
+        //200:2497*ms
+        //1000:1922*ms
+        //5000:1452*ms
+        //20000:1449*ms
+        //50000:1514*ms
+        int lehti=ridu/ridu_buhvris;
+
+        byte[] buffer=new byte[ridu_buhvris*8];
+        for (int lehe_number=0;lehe_number<lehti;lehe_number++){
+            inputFile.read(buffer);
+            for (int rea_number=0;rea_number<ridu_buhvris;rea_number++){
+                int number=myParseInt(buffer,rea_number);
+                //System.out.println(number);
+                //System.in.read();
+                bitSet.flip(number);
+
+            }
         }
         inputFile.close();
-        System.out.println("Time for reading to array: " + (System.currentTimeMillis() - startTime)+" *ms");
+        System.out.println("Time for reading to bitset: " + (System.currentTimeMillis() - startTime)+"*ms");
 
 
 
@@ -35,13 +52,13 @@ public class Sorter4 {
         outFile.close();
 
 
-        System.out.println("Time for running: " + (System.currentTimeMillis() - startTime)+" *ms");
+        System.out.println("Time for running: "+(System.currentTimeMillis()-startTime)+"*ms");
     }
-    static int myParseInt(byte[] b){
+    static int myParseInt(byte[] b,int rea_number){
         int number=0;
         int kordaja=1000000;
         for(int i=0;i<7;i++){
-            switch ((char)b[i]){
+            switch ((char)b[i+rea_number*8]){
                 case '1':
                     number+=kordaja;
                     break;

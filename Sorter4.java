@@ -29,7 +29,7 @@ public class Sorter4 {
         for (int page_number=0;page_number<lehti;page_number++){
             inputFile.read(buffer);
             for (int line_number=0;line_number<lines_in_buffer;line_number++){
-                existing_numbers.flip(myParseInt(buffer,line_number));
+                existing_numbers.set(myParseInt(buffer,line_number));
             }
         }
         inputFile.close();
@@ -39,45 +39,21 @@ public class Sorter4 {
         //System.out.println("printing");
         PrintWriter outFile= new PrintWriter(args[1], "UTF-8");
         if (existing_numbers.get(0)) {
-            outFile.println("0000000");
-        }//writes array into file with zeropadding on left side.
-        for (int i=1;i<10;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println("000000"+i);
-            }//writes array into file with zeropadding on left side.
+            outFile.println("0000000");// if 0 is in list wites it into array.
         }
-        for (int i=10;i<100;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println("00000"+i);
-            }//writes array into file with zeropadding on left side.
-        }
-        for (int i=100;i<1000;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println("0000"+i);
-            }//writes array into file with zeropadding on left side.
-        }
-        for (int i=1000;i<10000;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println("000"+i);
-            }//writes array into file with zeropadding on left side.
-        }
-        for (int i=10000;i<100000;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println("00"+i);
-            }//writes array into file with zeropadding on left side.
-        }
-        for (int i=100000;i<1000000;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println("0"+i);
-            }//writes array into file with zeropadding on left side.
-        }
-        for (int i=1000000;i<10000000;i++) {
-            if (existing_numbers.get(i)) {
-                outFile.println(i);
-            }//writes array into file with zeropadding on left side.
+        String nullid="0000000";
+        int rea_number=1;
+        for (int j=0;j<7;j++){
+            nullid=nullid.substring(0, nullid.length() - 1);
+            for (int i=rea_number;i<rea_number*10;i++) {
+                if (existing_numbers.get(i)) {
+                    outFile.println(nullid+i);//writes array into file with zeropadding on left side.
+                }
+            }
+            //System.out.println(rea_number+";"+rea_number*10+" ; "+nullid);
+            rea_number*=10;
         }
         outFile.close();
-
 
         System.out.println("Time for running: "+(System.currentTimeMillis()-startTime)+"*ms");
     }

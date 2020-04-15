@@ -57,41 +57,4 @@ public class Sorter5 {
 
         System.out.println("Time for running: "+(System.currentTimeMillis()-startTime)+"*ms");
     }
-    static int myParseInt(byte[] b,int rea_number){
-        int number=0;
-        int kordaja=1000000;
-        for(int i=0;i<7;i++){
-            switch ((char)b[i+rea_number*8]){
-                case '1':
-                    number+=kordaja;
-                    break;
-                case '2':
-                    number+=2*kordaja;
-                    break;
-                case '3':
-                    number+=3*kordaja;
-                    break;
-                case '4':
-                    number+=4*kordaja;
-                    break;
-                case '5':
-                    number+=5*kordaja;
-                    break;
-                case '6':
-                    number+=6*kordaja;
-                    break;
-                case '7':
-                    number+=7*kordaja;
-                    break;
-                case '8':
-                    number+=8*kordaja;
-                    break;
-                case '9':
-                    number+=9*kordaja;
-                    break;
-            }
-            kordaja/=10;
-        }
-        return number;
-    }
 }

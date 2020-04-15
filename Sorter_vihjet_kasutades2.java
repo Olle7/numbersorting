@@ -1,18 +1,14 @@
-//KÕIGE KIIREM 633*ms
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.BitSet;
 
-public class Sorter5 {
+public class Sorter_vihjet_kasutades2 {
     public static void main(String[] args) throws IOException{
         long startTime = System.currentTimeMillis();
 
         final BitSet existing_numbers = new BitSet(10000000);
         final FileInputStream inputFile = new FileInputStream(args[0]);
-        final int lines_in_file=9000000;
-        final int lines_in_buffer=6000;
+        final int lines_in_file=9000000;//9000000//26
+        final int lines_in_buffer=6000;//6000//2
 
         byte[] buffer=new byte[lines_in_buffer*8];
         for (int page_number=0;page_number<lines_in_file/lines_in_buffer;page_number++){
@@ -25,24 +21,27 @@ public class Sorter5 {
         System.out.println("Time for reading to bitset: "+(System.currentTimeMillis()-startTime)+"*ms");
 
 
-        //819:710
-        //2**13=8192:589
-        //2**14=16384:670
-        //2**15=32768:669
-        BufferedWriter outFile=new BufferedWriter( new PrintWriter(args[1], "UTF-8"),8192);
+        BufferedOutputStream outFile=new BufferedOutputStream(new FileOutputStream(args[1]));
 
-        char[] decimal_numbers = {'0', '1', '2', '3', '4','5','6','7','8','9'};
         int i=0;
-        for (char c6:decimal_numbers) {
-            for (char c5:decimal_numbers) {
-                for (char c4:decimal_numbers) {
-                    for (char c3:decimal_numbers) {
-                        for (char c2:decimal_numbers) {
-                            for (char c1:decimal_numbers) {
-                                for (char c0:decimal_numbers) {
+        byte[] line=new byte[8];
+        line[7]='\n';
+        for (byte c6='0';c6<='9';c6++){
+            line[0] = c6;
+            for (byte c5='0';c5<='9';c5++){
+                line[1] = c5;
+                for (byte c4='0';c4<='9';c4++){
+                    line[2] = c4;
+                    for (byte c3='0';c3<='9';c3++){
+                        line[3] = c3;
+                        for (byte c2='0';c2<='9';c2++){
+                            line[4] = c2;
+                            for (byte c1='0';c1<='9';c1++){
+                                line[5] = c1;
+                                for (byte c0='0';c0<='9';c0++){
+                                    line[6] = c0;
                                     if (existing_numbers.get(i)) {
-                                        //not faster with separate write commands.
-                                        outFile.write(c6+c5+c4+c3+c2+c1+c0+'\n');
+                                        outFile.write(line);
                                     }
                                     i++;
                                 }

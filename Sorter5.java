@@ -24,11 +24,11 @@ public class Sorter5 {
         System.out.println("Time for reading to bitset: "+(System.currentTimeMillis()-startTime)+"*ms");
 
 
-        //819:1200
-        //2**13=8192:1133
-        //2**14=16384:1055
-        //2**15=32768:1097
-        BufferedWriter outFile=new BufferedWriter( new PrintWriter(args[1], "UTF-8"),16384);
+        //819:710
+        //2**13=8192:589
+        //2**14=16384:670
+        //2**15=32768:669
+        BufferedWriter outFile=new BufferedWriter( new PrintWriter(args[1], "UTF-8"),8192);
 
         char[] decimal_numbers = {'0', '1', '2', '3', '4','5','6','7','8','9'};
         int i=0;
@@ -40,7 +40,8 @@ public class Sorter5 {
                             for (char c1:decimal_numbers) {
                                 for (char c0:decimal_numbers) {
                                     if (existing_numbers.get(i)) {
-                                        outFile.write((new char[]{c6,c5,c4,c3,c2, c1, c0,'\n'}));
+                                        //not faster with separate write commands.
+                                        outFile.write(c6+c5+c4+c3+c2+c1+c0+'\n');
                                     }
                                     i++;
                                 }

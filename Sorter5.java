@@ -1,3 +1,4 @@
+//KÕIGE KIIREM 633*ms
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.IOException;

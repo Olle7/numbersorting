@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,8 +8,8 @@ public class Sorter5 {
     public static void main(String[] args) throws IOException{
         long startTime = System.currentTimeMillis();
 
-        BitSet existing_numbers = new BitSet(10000000);
-        FileInputStream inputFile = new FileInputStream(args[0]);
+        final BitSet existing_numbers = new BitSet(10000000);
+        final FileInputStream inputFile = new FileInputStream(args[0]);
         final int lines_in_file=9000000;
         final int lines_in_buffer=6000;
 
@@ -23,22 +24,31 @@ public class Sorter5 {
         System.out.println("Time for reading to bitset: "+(System.currentTimeMillis()-startTime)+"*ms");
 
 
-        //System.out.println("printing");
-        PrintWriter outFile= new PrintWriter(args[1], "UTF-8");
-        if (existing_numbers.get(0)) {
-            outFile.println("0000000");// if 0 is in list wites it into array.
-        }
-        String nullid="0000000";
-        int rea_number=1;
-        for (int j=0;j<7;j++){
-            nullid=nullid.substring(0, nullid.length() - 1);
-            for (int i=rea_number;i<rea_number*10;i++) {
-                if (existing_numbers.get(i)) {
-                    outFile.println(nullid+i);//writes array into file with zeropadding on left side.
+        //819:1200
+        //2**13=8192:1133
+        //2**14=16384:1055
+        //2**15=32768:1097
+        BufferedWriter outFile=new BufferedWriter( new PrintWriter(args[1], "UTF-8"),16384);
+
+        char[] decimal_numbers = {'0', '1', '2', '3', '4','5','6','7','8','9'};
+        int i=0;
+        for (char c6:decimal_numbers) {
+            for (char c5:decimal_numbers) {
+                for (char c4:decimal_numbers) {
+                    for (char c3:decimal_numbers) {
+                        for (char c2:decimal_numbers) {
+                            for (char c1:decimal_numbers) {
+                                for (char c0:decimal_numbers) {
+                                    if (existing_numbers.get(i)) {
+                                        outFile.write((new char[]{c6,c5,c4,c3,c2, c1, c0,'\n'}));
+                                    }
+                                    i++;
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            //System.out.println(rea_number+";"+rea_number*10+" ; "+nullid);
-            rea_number*=10;
         }
         outFile.close();
 

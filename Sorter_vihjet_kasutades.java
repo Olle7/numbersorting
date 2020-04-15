@@ -10,7 +10,7 @@ public class Sorter_vihjet_kasutades {
         while (true) {
             try {
                 long myMagic8Bytes = din.readLong();
-                long m=0;
+                long number=0;
                 /*long new_line=((myMagic8Bytes >> 8*8) & 0xFF);
                 long bit_0=((myMagic8Bytes >> 7*8) & 0xFF) - '0';
                 long bit_1=((myMagic8Bytes >> 6*8) & 0xFF) - '0';
@@ -20,10 +20,10 @@ public class Sorter_vihjet_kasutades {
                 long bit_5=((myMagic8Bytes >> 2*8) & 0xFF) - '0';
                 long bit_6=((myMagic8Bytes >> 1*8) & 0xFF) - '0';*/
                 for (int i=7;i>0;){
-                    m*=10;
-                    m+=((myMagic8Bytes>>i--*8)&0xFF-'0');
+                    number*=10;
+                    number+=((myMagic8Bytes>>i--*8)&0xFF-'0');
                 }
-                existing_numbers.set((int)m);
+                existing_numbers.set((int)number);
             } catch (EOFException ignore) {
                 // cool hack, avoiding end detection :)
                 din.close();
@@ -39,16 +39,17 @@ public class Sorter_vihjet_kasutades {
         if (existing_numbers.get(0)) {
             outFile.println("0000000");// if 0 is in list writes it into array.
         }
-        String nullid="0000000";
-        int rea_number=1;
+        String zeros="0000000";
+        int line_number=1;
         for (int j=0;j<7;j++){
-            nullid=nullid.substring(0, nullid.length() - 1);
-            for (int i=rea_number;i<rea_number*10;i++) {
+            zeros=zeros.substring(0, zeros.length() - 1);
+            for (int i=line_number;i<line_number*10;i++) {
                 if (existing_numbers.get(i)) {
-                    outFile.println(nullid+i);
+                    outFile.println(zeros+i);
+                    //outFile.println();
                 }
             }
-            rea_number*=10;
+            line_number*=10;
         }
         outFile.close();
         System.out.println("Time for running: "+(System.currentTimeMillis()-startTime)+"*ms");

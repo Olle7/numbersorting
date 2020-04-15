@@ -11,7 +11,7 @@ public class Sorter5 {
         FileInputStream inputFile = new FileInputStream(args[0]);
         final int lines_in_file=9000000;
 
-        int lines_in_buffer=5000;
+        int lines_in_buffer=6000;
         //50:1742*ms
         //100:1634*ms
         //130:1558*ms

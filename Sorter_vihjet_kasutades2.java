@@ -1,14 +1,18 @@
-import java.io.*;
+//KÕIGE KIIREM 633*ms
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Sorter_vihjet_kasutades2 {
+public class Sorter5 {
     public static void main(String[] args) throws IOException{
         long startTime = System.currentTimeMillis();
 
         final BitSet existing_numbers = new BitSet(10000000);
         final FileInputStream inputFile = new FileInputStream(args[0]);
-        final int lines_in_file=9000000;//9000000//26
-        final int lines_in_buffer=6000;//6000//2
+        final int lines_in_file=9000000;
+        final int lines_in_buffer=6000;
 
         byte[] buffer=new byte[lines_in_buffer*8];
         for (int page_number=0;page_number<lines_in_file/lines_in_buffer;page_number++){
@@ -21,27 +25,24 @@ public class Sorter_vihjet_kasutades2 {
         System.out.println("Time for reading to bitset: "+(System.currentTimeMillis()-startTime)+"*ms");
 
 
-        FileOutputStream outFile=new FileOutputStream(args[1]);
+        //819:710
+        //2**13=8192:589
+        //2**14=16384:670
+        //2**15=32768:669
+        BufferedWriter outFile=new BufferedWriter( new PrintWriter(args[1], "UTF-8"),8192);
 
+        char[] decimal_numbers = {'0', '1', '2', '3', '4','5','6','7','8','9'};
         int i=0;
-        byte[] valja=new byte[8];
-        valja[7]='\n';
-        for (byte c6='0';c6<='9';c6++){
-            valja[0] = c6;
-            for (byte c5='0';c5<='9';c5++){
-                valja[1] = c5;
-                for (byte c4='0';c4<='9';c4++){
-                    valja[2] = c4;
-                    for (byte c3='0';c3<='9';c3++){
-                        valja[3] = c3;
-                        for (byte c2='0';c2<='9';c2++){
-                            valja[4] = c2;
-                            for (byte c1='0';c1<='9';c1++){
-                                valja[5] = c1;
-                                for (byte c0='0';c0<='9';c0++){
-                                    valja[6] = c0;
+        for (char c6:decimal_numbers) {
+            for (char c5:decimal_numbers) {
+                for (char c4:decimal_numbers) {
+                    for (char c3:decimal_numbers) {
+                        for (char c2:decimal_numbers) {
+                            for (char c1:decimal_numbers) {
+                                for (char c0:decimal_numbers) {
                                     if (existing_numbers.get(i)) {
-                                        outFile.write(valja);
+                                        //not faster with separate write commands.
+                                        outFile.write(c6+c5+c4+c3+c2+c1+c0+'\n');
                                     }
                                     i++;
                                 }
